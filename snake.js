@@ -1,15 +1,5 @@
 'use strict';
 
-const paper = Raphael(0, 0, window.innerWidth, window.innerHeight);
-
-const anotherPaper = Raphael(0, 0, window.innerWidth, window.innerHeight);
-
-class Position {
-	constructor(x, y) {
-		Object.assign(this, { x, y });
-	}
-}
-
 class Snake {
 	constructor(skeleton = "rectangles", color = "black", head = { x: 50, y: 10 }) {
 		Object.assign(this, { 
@@ -18,10 +8,6 @@ class Snake {
 				body: [...Array(4)].map((iter, i) => ({ x: (head.x - i*20), y: head.y })) 
 			}
 		);
-	}
-
-	segment(x, y) {
-		return { x, y };
 	}
 
 	moveMap() {
@@ -33,7 +19,8 @@ class Snake {
 		}
 	}
 
-	eatAndGrow() {
+	isEatingItself() {
+		return this.body.slice(1).some(part => (part.x == this.head.x && part.y == this.head.y));
 	}
 
 	renderBody(direction, ate) {
