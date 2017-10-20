@@ -9,7 +9,9 @@ const blockSize = 30;
 
 const boundaries = { 
 	top: [2 * blockSize, blockSize], 
-	bottom: [window.innerWidth - (4 * blockSize), window.innerHeight - (2 * blockSize)] 
+	bottom: [
+		(parseInt(window.innerWidth/blockSize) * blockSize) - (4 * blockSize), 
+		(parseInt(window.innerHeight/blockSize) * blockSize) - (2 * blockSize)] 
 }
 
 const opposites = {right: "left", left: "right", up: "down", down: "up"};

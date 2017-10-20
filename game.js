@@ -27,8 +27,8 @@ class Game {
 		this.score += 1;
 		staticPaper.clear();
 		this.foodLocation = { 
-			x: (parseInt(((Math.random() * boundaries.bottom[0]))/blockSize) * blockSize) + boundaries.top[0],
-			y: (parseInt(((Math.random() * boundaries.bottom[1]))/blockSize) * blockSize) + boundaries.top[1],
+			x: (parseInt(((Math.random() * boundaries.bottom[0]))/blockSize) * (blockSize)),
+			y: (parseInt(((Math.random() * boundaries.bottom[1]))/blockSize) * (blockSize))
 		};
 		this.renderFoodBlock();
 	}

@@ -24,10 +24,10 @@ class Snake {
 	}
 
 	isEscaping() {
-		return this.head.x + blockSize >= boundaries.bottom[0] 
-				|| this.head.y + blockSize >= boundaries.bottom[1]
-				|| this.head.x + blockSize < boundaries.top[0]
-				|| this.head.y < boundaries.top[1]
+		return this.head.x >= boundaries.bottom[0] 
+				|| this.head.y >= boundaries.bottom[1]
+				|| this.head.x + 2 * blockSize < boundaries.top[0]
+				|| this.head.y + blockSize < boundaries.top[1]
 	}
 
 	renderBody(direction, ate) {
