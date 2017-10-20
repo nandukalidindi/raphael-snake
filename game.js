@@ -1,6 +1,8 @@
 class Game {
 	constructor() {
 		this.score = -1;
+		this.board = new Board();
+		this.board.renderBoard();
 		this.snake = new Snake();
 		this.direction = "right";
 		this.gameInterval = null;
@@ -25,14 +27,14 @@ class Game {
 		this.score += 1;
 		staticPaper.clear();
 		this.foodLocation = { 
-			x: (parseInt(((Math.random() * window.innerWidth - 40))/20) * 20) + 10,
-			y: (parseInt(((Math.random() * window.innerHeight -40))/20) * 20) + 10,
+			x: (parseInt(((Math.random() * boundaries.bottom[0]))/blockSize) * blockSize) + boundaries.top[0],
+			y: (parseInt(((Math.random() * boundaries.bottom[1]))/blockSize) * blockSize) + boundaries.top[1],
 		};
 		this.renderFoodBlock();
 	}
 
 	renderFoodBlock() {
-		var food = staticPaper.rect(this.foodLocation.x, this.foodLocation.y, 20, 20);
+		var food = staticPaper.rect(this.foodLocation.x, this.foodLocation.y, blockSize, blockSize);
 		food.attr("fill", "#f00");
 		food.attr("stroke", "#fff");
 
@@ -55,9 +57,10 @@ class Game {
 	}
 
 	renderGame() {
-		paper.clear();	
-
-		this.snake.isEatingItself() && clearInterval(this.gameInterval)
+		if(this.snake.isEatingItself() || this.snake.isEscaping() && !clearInterval(this.gameInterval))
+			return
+		
+		paper.clear();			
 
 		this.snake.renderBody(
 			this.direction,
