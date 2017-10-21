@@ -40,7 +40,8 @@ class Snake {
 			let circle = paper.rect(part.x, part.y, blockSize, blockSize);			
 			circle.attr("fill", "#f00");
 			circle.attr("stroke", "#fff");
-			circle.attr("opacity", 1.0 - index/(bodyLength * 5))
+			circle.blur();
+			circle.attr("opacity", 1.0 - index/(bodyLength * 2))
 		});
 	}
 }

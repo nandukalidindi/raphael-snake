@@ -26,8 +26,7 @@ class Game {
 		food.attr("fill", "#00ff00");
 		food.attr("stroke", "#fff");
 
-		staticPaper.bottom.blur();
-
+		food.blur();
 
 		var foodX = this.foodLocation.x,
 			foodY = this.foodLocation.y;
@@ -45,17 +44,17 @@ class Game {
 	}
 
 	renderGame() {
-		if(this.snake.isEatingItself() || this.snake.isEscaping() && !clearInterval(this.gameInterval))
-			return
-		
-		paper.clear();			
+		!(this.snake.isEatingItself() || this.snake.isEscaping() && !clearInterval(this.gameInterval))
+			&& (() => {
+				paper.clear();			
 
-		this.snake.renderBody(
-			this.direction,
-			!!!(this.snake.head.x == this.foodLocation.x 
-				&& this.snake.head.y == this.foodLocation.y 
-				&& !this.generateNewFood())
-		);		
+				this.snake.renderBody(
+					this.direction,
+					!!!(this.snake.head.x == this.foodLocation.x 
+						&& this.snake.head.y == this.foodLocation.y 
+						&& !this.generateNewFood())
+				);		
+			})()
 	}
 
 	initializeListeners() {		
@@ -80,8 +79,15 @@ class Game {
 
 	resizeListener() {
 		window.addEventListener('resize', (event) => {
-			// debugger;
+			boundaries = { 
+				top: [2 * blockSize, blockSize], 
+				bottom: [
+					(parseInt(window.innerWidth/blockSize) * blockSize) - (4 * blockSize), 
+					(parseInt(window.innerHeight/blockSize) * blockSize) - (2 * blockSize)] 
+			}
 		});
+		// boardPaper.clear();
+		// this.board.renderBoard();
 	}
 
 	playPauseListener() {
