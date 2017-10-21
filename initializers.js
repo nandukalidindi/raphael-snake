@@ -3,6 +3,7 @@ const keyCodeMap = {
 	40: "down",
 	39: "right",
 	37: "left",	
+	32: "space"
 };
 
 const blockSize = 30;
@@ -13,6 +14,8 @@ const boundaries = {
 		(parseInt(window.innerWidth/blockSize) * blockSize) - (4 * blockSize), 
 		(parseInt(window.innerHeight/blockSize) * blockSize) - (2 * blockSize)] 
 }
+
+const head =  { x: boundaries.top[0] + (2*blockSize), y: boundaries.top[1] }
 
 const opposites = {right: "left", left: "right", up: "down", down: "up"};
 

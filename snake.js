@@ -1,7 +1,7 @@
 'use strict';
 
 class Snake {
-	constructor(skeleton = "rectangles", color = "black", head = { x: boundaries.top[0] + (2*blockSize), y: boundaries.top[1] }) {
+	constructor(skeleton = "rectangles", color = "black") {
 		Object.assign(this, { 
 				skeleton, color, 
 				head, 
@@ -35,10 +35,12 @@ class Snake {
 		this.moveMap()[direction]();		
 
 		this.body = [this.head, ...this.body];
-		this.body.forEach(part => {
-			let circle = paper.rect(part.x, part.y, blockSize, blockSize);
+		const bodyLength = this.body.length;
+		this.body.forEach((part, index) => {
+			let circle = paper.rect(part.x, part.y, blockSize, blockSize);			
 			circle.attr("fill", "#f00");
 			circle.attr("stroke", "#fff");
+			circle.attr("opacity", 1.0 - index/(bodyLength * 5))
 		});
 	}
 }

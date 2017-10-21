@@ -7,24 +7,12 @@ class Game {
 		this.direction = "right";
 		this.gameInterval = null;
 		this.generateNewFood();		
-
-		document.addEventListener('keydown', (event) => {
-			let keyCodeDirection = keyCodeMap[event.keyCode] || this.direction;
-
-			this.direction = (this.direction !== opposites[keyCodeDirection])
-								?
-								keyCodeDirection
-								:
-								this.direction;			
-		});		
-
-		window.addEventListener('resize', (event) => {
-			debugger;
-		});
+		this.initializeListeners();
 	}
 
 	generateNewFood() {
 		this.score += 1;
+		this.updateScore(this.score);
 		staticPaper.clear();
 		this.foodLocation = { 
 			x: (parseInt(((Math.random() * boundaries.bottom[0]))/blockSize) * (blockSize)),
@@ -35,7 +23,7 @@ class Game {
 
 	renderFoodBlock() {
 		var food = staticPaper.rect(this.foodLocation.x, this.foodLocation.y, blockSize, blockSize);
-		food.attr("fill", "#f00");
+		food.attr("fill", "#00ff00");
 		food.attr("stroke", "#fff");
 
 		staticPaper.bottom.blur();
@@ -70,11 +58,59 @@ class Game {
 		);		
 	}
 
+	initializeListeners() {		
+		this.directionListener();
+		this.resizeListener();
+		this.playPauseListener();		
+	}
+
+	directionListener() {
+		document.addEventListener('keydown', (event) => {
+			let keyCodeDirection = keyCodeMap[event.keyCode] || this.direction;
+
+			this.direction = (this.direction !== opposites[keyCodeDirection])
+								?
+								keyCodeDirection
+								:
+								this.direction;
+
+			keyCodeDirection === "space" && this.pause();
+		});
+	}
+
+	resizeListener() {
+		window.addEventListener('resize', (event) => {
+			// debugger;
+		});
+	}
+
+	playPauseListener() {
+		document.getElementById("play-pause").addEventListener('click', (event) => {
+
+			const pause = event.target.src.indexOf("pause.svg") !== -1
+
+			event.target.src = pause ? event.target.src.replace("pause.svg", "play.svg")										
+							   			: 
+							   		   event.target.src.replace("play.svg", "pause.svg")
+							   		   
+
+			return pause ? this.pause() : this.play();
+		})
+	}
+
+	updateScore(score) {
+		var scoreElement = document.getElementById("score");
+		scoreElement.innerText = score.toString();
+	}
+
 	play() {
-		this.gameInterval = setInterval(this.renderGame.bind(this), 150);
+		this.gameInterval = setInterval(this.renderGame.bind(this), 120);
+	}
+
+	pause() {
+		return clearInterval(this.gameInterval);
 	}
 }
 
 
 game = new Game();
-game.play();
