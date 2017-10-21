@@ -1,18 +1,18 @@
 class Game {
 	constructor() {
 		this.score = -1;
+		this.state = "pause";
 		this.board = new Board();
 		this.board.renderBoard();
 		this.snake = new Snake();
 		this.direction = "right";
 		this.gameInterval = null;
-		this.generateNewFood();		
+		this.withScoreComesNewFood();		
 		this.initializeListeners();
 	}
 
-	generateNewFood() {
-		this.score += 1;
-		this.updateScore(this.score);
+	withScoreComesNewFood() {		
+		this.updateScore(this.score += 1);
 		staticPaper.clear();
 		this.foodLocation = { 
 			x: (parseInt(((Math.random() * boundaries.bottom[0]))/blockSize) * (blockSize)),
@@ -43,78 +43,78 @@ class Game {
 		animation(food);
 	}
 
-	renderGame() {
-		!(this.snake.isEatingItself() || this.snake.isEscaping() && !clearInterval(this.gameInterval))
-			&& (() => {
-				paper.clear();			
-
-				this.snake.renderBody(
-					this.direction,
-					!!!(this.snake.head.x == this.foodLocation.x 
-						&& this.snake.head.y == this.foodLocation.y 
-						&& !this.generateNewFood())
-				);		
-			})()
+	refreshGame() {
+		!((this.snake.isEatingItself() || this.snake.isEscaping()) && !clearInterval(this.gameInterval)) 
+		&& this.refreshSnake()			
 	}
 
-	initializeListeners() {		
-		this.directionListener();
-		this.resizeListener();
-		this.playPauseListener();		
+	refreshSnake() {
+		paper.clear();			
+
+		this.snake.renderBody(
+			this.direction,
+			this.didPoorSnakeEat()
+		);	
 	}
 
-	directionListener() {
-		document.addEventListener('keydown', (event) => {
-			let keyCodeDirection = keyCodeMap[event.keyCode] || this.direction;
+	didPoorSnakeEat() {
+		return !!( this.snake.head.x === this.foodLocation.x
+					&& this.snake.head.y === this.foodLocation.y
+					&& !this.withScoreComesNewFood()
+				  )
+	}
 
-			this.direction = (this.direction !== opposites[keyCodeDirection])
-								?
-								keyCodeDirection
-								:
-								this.direction;
+	initializeListeners() {
+		document.addEventListener('keydown', this.snakeCharmer.bind(this));
 
-			keyCodeDirection === "space" && this.pause();
-		});
+		window.addEventListener('resize', this.resizeListener.bind(this));
+
+		document.getElementById("play-pause")
+		        .addEventListener('click', this.danceNoDance.bind(this));
+	}
+
+	snakeCharmer(event) {		
+		let keyCodeDirection = keyCodeMap[event.keyCode] || this.direction;
+
+		this.direction = (this.direction !== opposites[keyCodeDirection])
+							?
+							keyCodeDirection
+							:
+							this.direction;
+
+		event.keyCode === 32 
+			&& this.danceNoDance({target: document.getElementById("play-pause")});
 	}
 
 	resizeListener() {
-		window.addEventListener('resize', (event) => {
-			boundaries = { 
-				top: [2 * blockSize, blockSize], 
-				bottom: [
-					(parseInt(window.innerWidth/blockSize) * blockSize) - (4 * blockSize), 
-					(parseInt(window.innerHeight/blockSize) * blockSize) - (2 * blockSize)] 
-			}
-		});
-		// boardPaper.clear();
-		// this.board.renderBoard();
+		// boundaries = { 
+		// 	top: [2 * blockSize, blockSize], 
+		// 	bottom: [
+		// 		(parseInt(window.innerWidth/blockSize) * blockSize) - (4 * blockSize), 
+		// 		(parseInt(window.innerHeight/blockSize) * blockSize) - (2 * blockSize)
+		// 	] 
+		// }
 	}
 
-	playPauseListener() {
-		document.getElementById("play-pause").addEventListener('click', (event) => {
+	danceNoDance(event) {
+		const prevState = this.state;
+		this.state = toggles[this.state];
+		event.target.src = event.target.src.replace(this.state + ".svg", prevState + ".svg")
 
-			const pause = event.target.src.indexOf("pause.svg") !== -1
-
-			event.target.src = pause ? event.target.src.replace("pause.svg", "play.svg")										
-							   			: 
-							   		   event.target.src.replace("play.svg", "pause.svg")
-							   		   
-
-			return pause ? this.pause() : this.play();
-		})
+		return this.state === "pause" ? this.pause() : this.play();
 	}
 
 	updateScore(score) {
-		var scoreElement = document.getElementById("score");
-		scoreElement.innerText = score.toString();
+		document.getElementById("score")
+				.innerText = score.toString();
 	}
 
 	play() {
-		this.gameInterval = setInterval(this.renderGame.bind(this), 120);
+		this.gameInterval = setInterval(this.refreshGame.bind(this), 120);
 	}
 
 	pause() {
-		return clearInterval(this.gameInterval);
+		clearInterval(this.gameInterval);
 	}
 }
 

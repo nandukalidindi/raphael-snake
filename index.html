@@ -3,13 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>SNAKE</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-	<div style="text-align: center; font-size: 20px; font-weight: bold; font-family: monospace;">
-		<span> SCORE: </span>
-		<span id="score"> 0 </span>
-
-		<img id="play-pause" src="icons/play.svg" width="25"/>
+	<div class="header">
+		<div>
+			<div>
+				<span> SCORE: </span>
+				<span id="score"> 0 </span>
+			</div>
+			<div>
+				<img id="play-pause" src="icons/play.svg" width="25"/>
+				<img src="icons/undo.svg" width="25"/>
+			</div>
+		</div>	
 	</div>
 </body>
 	<script src="js/raphael.min.js"></script>
