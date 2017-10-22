@@ -192,7 +192,9 @@ class Game {
     const scoreElement = document.getElementById("score");
 
     scoreElement.innerText = score.toString();
-    scoreElement.animate([{transform: "scale(2.0)"}, {transform: "scale(1.0)"}], {duration: 2000});
+
+    scoreElement.animate //Check if the browser supports animate API because SAFARI does not
+    && scoreElement.animate([{transform: "scale(2.0)"}, {transform: "scale(1.0)"}], {duration: 2000});
   }
 
   /**
