@@ -1,4 +1,4 @@
-import { boundaries, blockSize, boardPaper } from './initializers';
+import { boundaries, blockSize, boardPaper } from './shared-constants';
 
 const lineCounter = (length) => (Math.ceil(length/blockSize) + 2)
 
@@ -7,7 +7,9 @@ class Board {
 		Object.assign(this, {
 			horizontals: lineCounter(boundaries.bottom[0] - boundaries.top[0]),
 			verticals: lineCounter(boundaries.bottom[1] - boundaries.top[1])
-		})
+		});
+
+    this.renderBoard();
   }
 
 	/**

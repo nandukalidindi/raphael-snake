@@ -1,16 +1,29 @@
 import Board from './board';
 import Snake from './snake';
-import { keyCodeMap, opposites, toggles, boundaries, paper, staticPaper, boundaries, blockSize } from './initializers';
+import { boundaries, paper, staticPaper, boundaries, blockSize } from './shared-constants';
+
+const toggles = { play: "pause", pause: "play" }
+
+const opposites = {right: "left", left: "right", up: "down", down: "up"};
+
+const keyCodeMap = {
+  38: "up",
+  40: "down",
+  39: "right",
+  37: "left"
+};
 
 class Game {
   constructor() {
-    this.score = -1;
-    this.state = "pause";
-    this.board = new Board();
-    this.board.renderBoard();
-    this.snake = new Snake();
-    this.direction = "right";
-    this.gameInterval = null;
+    Object.assign(this, {
+      score: -1,
+      state: "pause",
+      direction: "right",
+      gameInterval: null,
+      board: new Board(),
+      snake: new Snake()
+    });
+    
     this.withScoreComesNewFood();
     this.initializeListeners();
   }
@@ -176,8 +189,10 @@ class Game {
    * @param {Integer} score
    */
   updateScore(score) {
-    document.getElementById("score")
-            .innerText = score.toString();
+    const scoreElement = document.getElementById("score");
+
+    scoreElement.innerText = score.toString();
+    scoreElement.animate([{opacity: 1.0}, {opacity: 0.0}], {duration: 2000});
   }
 
   /**
