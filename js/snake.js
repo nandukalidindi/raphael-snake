@@ -1,4 +1,4 @@
-'use strict';
+import { head, blockSize, boundaries, paper } from './initializers';
 
 class Snake {
   constructor(skeleton = "rectangles", color = "black") {
@@ -70,3 +70,5 @@ class Snake {
     });
   }
 }
+
+export default Snake;

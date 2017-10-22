@@ -1,3 +1,7 @@
+import Board from './board';
+import Snake from './snake';
+import { keyCodeMap, opposites, toggles, boundaries, paper, staticPaper, boundaries, blockSize } from './initializers';
+
 class Game {
   constructor() {
     this.score = -1;
@@ -196,4 +200,4 @@ class Game {
 }
 
 
-game = new Game();
+const game = new Game();

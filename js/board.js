@@ -1,4 +1,4 @@
-'use strict'
+import { boundaries, blockSize, boardPaper } from './initializers';
 
 const lineCounter = (length) => (Math.ceil(length/blockSize) + 2)
 
@@ -35,3 +35,5 @@ class Board {
     });
   }
 }
+
+export default Board;
