@@ -1,11 +1,13 @@
-'use strict';
+import { head, blockSize, boundaries, paper } from './shared-constants';
+
+const initial =  { x: boundaries.top[0] + (2*blockSize), y: boundaries.top[1] }
 
 class Snake {
   constructor(skeleton = "rectangles", color = "black") {
     Object.assign(this, {
         skeleton, color,
-        head,
-        body: [...Array(4)].map((iter, i) => ({ x: (head.x - i*blockSize), y: head.y }))
+        head: initial,
+        body: [...Array(4)].map((iter, i) => ({ x: (initial.x - i*blockSize), y: initial.y }))
       }
     );
   }
@@ -70,3 +72,5 @@ class Snake {
     });
   }
 }
+
+export default Snake;
