@@ -192,7 +192,7 @@ class Game {
     const scoreElement = document.getElementById("score");
 
     scoreElement.innerText = score.toString();
-    scoreElement.animate([{opacity: 1.0}, {opacity: 0.0}], {duration: 2000});
+    scoreElement.animate([{transform: "scale(2.0)"}, {transform: "scale(1.0)"}], {duration: 2000});
   }
 
   /**

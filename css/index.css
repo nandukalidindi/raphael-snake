@@ -2,5 +2,26 @@
   font-size: 20px;
   font-weight: bold;
   font-family: monospace;
+
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  -webkit-box-flex-direction: row;
+  -moz-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  height:100%;
+}
+
+.flex-box {
+  display: flex;
+}
+
+.center {
   text-align: center;
+}
+
+.auto-margin {
+  margin: auto;
 }
