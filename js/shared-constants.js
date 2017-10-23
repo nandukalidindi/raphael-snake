@@ -10,10 +10,6 @@ const boundaries = {
 
 const boardPaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
-var rect = boardPaper.rect(0, 0, window.innerWidth, window.innerHeight);
-rect.attr("fill", "#000000");
-rect.attr("stroke", "#00FF00");
-
 const snakePaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
 const foodPaper = Raphael(...boundaries.top, ...boundaries.bottom);

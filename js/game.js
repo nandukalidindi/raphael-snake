@@ -1,10 +1,12 @@
 import Board from './board';
 import Snake from './snake';
-import { boundaries, snakePaper, foodPaper, boundaries, blockSize } from './shared-constants';
+import { boundaries, boardPaper, snakePaper, foodPaper, boundaries, blockSize } from './shared-constants';
 
 const toggles = { play: "pause", pause: "play" }
 
 const opposites = {right: "left", left: "right", up: "down", down: "up"};
+
+var foodColor = "#00FF00";
 
 const keyCodeMap = {
   38: "up",
@@ -52,8 +54,8 @@ class Game {
    */
   renderFoodBlock() {
     var food = foodPaper.rect(this.foodLocation.x, this.foodLocation.y, blockSize, blockSize);
-    food.attr("fill", "#00ff00");
-    food.attr("stroke", "#fff");
+    food.attr("fill", foodColor);
+    food.attr("stroke", foodColor);
 
     food.blur();
 
@@ -123,12 +125,18 @@ class Game {
    * @method initializeListeners
    */
   initializeListeners() {
-    document.addEventListener('keydown', this.snakeCharmer.bind(this));
+    document.addEventListener("keydown", this.snakeCharmer.bind(this));
 
-    window.addEventListener('resize', this.resizeListener.bind(this));
+    window.addEventListener("resize", this.resizeListener.bind(this));
 
     document.getElementById("play-pause")
             .addEventListener('click', this.danceNoDance.bind(this));
+
+    document.getElementById("reset")
+            .addEventListener('click', this.resetGame.bind(this));
+
+    document.getElementById("food-color")
+            .addEventListener("input", this.temptSnakeWithNewFoodColor.bind(this));
   }
 
   /**
@@ -183,6 +191,38 @@ class Game {
   }
 
   /**
+   * Reset game by clearing out all the papers and creating a new instance of Game
+   *
+   * @method resetGame
+   * @param {Object} event
+   */
+  resetGame(event) {
+    event.target.animate(
+      [{ transform: "rotateZ(0deg)" }, { transform: "rotateZ(-360deg" }], 
+      { duration: 1000 }
+    )
+
+    game 
+    && !game.pause()              
+    && !snakePaper.clear()
+    && !foodPaper.clear()
+    && !boardPaper.clear()
+    && (game = new Game());
+  }
+
+  /**
+   * Change food color by clearing the paper assigned for rendering food
+   *
+   * @method temptSnakeWithNewFoodColor
+   * @param {Object} event
+   */
+  temptSnakeWithNewFoodColor(event) {
+    foodPaper.clear();
+    foodColor = event.target.value;
+    this.renderFoodBlock();  
+  }
+
+  /**
    * Update DOM element with the corresponding score
    *
    * @method updateScore
@@ -216,4 +256,4 @@ class Game {
   }
 }
 
-const game = new Game();
+var game = new Game();
