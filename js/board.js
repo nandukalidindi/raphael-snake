@@ -2,6 +2,8 @@ import { boundaries, blockSize, boardPaper } from './shared-constants';
 
 const lineCounter = (length) => (Math.ceil(length/blockSize) + 2)
 
+var boardColor = "#000000"
+
 class Board {
   constructor() {
     Object.assign(this, {
@@ -10,6 +12,7 @@ class Board {
     });
 
     this.renderBoard();
+    this.initializeListeners();
   }
 
   /**
@@ -19,7 +22,7 @@ class Board {
    */
   renderBoard() {
     var rect = boardPaper.rect(0, 0, window.innerWidth, window.innerHeight);
-    rect.attr("fill", "#000000");
+    rect.attr("fill", boardColor);
     rect.attr("stroke", "#00FF00");    
 
     // const lineContructor = (constructString) =
@@ -37,6 +40,29 @@ class Board {
       line.attr("stroke", "#FFFFFF");
       line.attr("stroke-width", .4);
     });
+  }
+
+
+  /**
+   * Initialize all the event listeners that are required to play the game
+   *
+   * @method initializeListeners
+   */
+  initializeListeners() {
+    document.getElementById("board-color")
+            .addEventListener("input", this.dontLikeBoardColorHenceChanging.bind(this));
+  }
+
+  /**
+   * Event handler to change the board color to selected value from the color picker
+   *
+   * @method dontLikeBoardColorHenceChanging (Event Handler)
+   * @param {Object} event
+   */
+  dontLikeBoardColorHenceChanging(event) {
+    boardPaper.clear();
+    boardColor = event.target.value;
+    this.renderBoard();
   }
 }
 

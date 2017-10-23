@@ -4,7 +4,7 @@ import { boundaries, boardPaper, snakePaper, foodPaper, boundaries, blockSize } 
 
 const toggles = { play: "pause", pause: "play" }
 
-const opposites = {right: "left", left: "right", up: "down", down: "up"};
+const opposites = { right: "left", left: "right", up: "down", down: "up" };
 
 var foodColor = "#00FF00";
 
@@ -123,6 +123,39 @@ class Game {
              )
   }
 
+   /**
+   * Update DOM element with the corresponding score
+   *
+   * @method updateScore
+   * @param {Integer} score
+   */
+  updateScore(score) {
+    const scoreElement = document.getElementById("score");
+
+    scoreElement.innerText = score.toString();
+
+    scoreElement.animate //Check if the browser supports animate API because SAFARI does not
+    && scoreElement.animate([{transform: "scale(2.0)"}, {transform: "scale(1.0)"}], {duration: 2000});
+  }
+
+  /**
+   * Start the game play by setting the interval to specified framerate
+   *
+   * @method play
+   */
+  play() {
+    this.gameInterval = setInterval(this.refreshGame.bind(this), 120);
+  }
+
+  /**
+   * Pause the game play by clearing the assigned interval
+   *
+   * @method pause
+   */
+  pause() {
+    clearInterval(this.gameInterval);
+  }
+
   /**
    * Initialize all the event listeners that are required to play the game
    *
@@ -159,7 +192,8 @@ class Game {
                         this.direction;
 
     event.keyCode === 32
-      && this.danceNoDance({target: document.getElementById("play-pause")});
+    && !event.preventDefault()
+    && this.danceNoDance({target: document.getElementById("play-pause")});
   }
 
   /**
@@ -197,7 +231,7 @@ class Game {
   /**
    * Reset game by clearing out all the papers and creating a new instance of Game
    *
-   * @method resetGame
+   * @method resetGame (Event Handler)
    * @param {Object} event
    */
   resetGame(event) {
@@ -217,46 +251,13 @@ class Game {
   /**
    * Change food color by clearing the paper assigned for rendering food
    *
-   * @method temptSnakeWithNewFoodColor
+   * @method temptSnakeWithNewFoodColor (Event Handler)
    * @param {Object} event
    */
   temptSnakeWithNewFoodColor(event) {
     foodPaper.clear();
     foodColor = event.target.value;
     this.renderFoodBlock();  
-  }
-
-  /**
-   * Update DOM element with the corresponding score
-   *
-   * @method updateScore
-   * @param {Integer} score
-   */
-  updateScore(score) {
-    const scoreElement = document.getElementById("score");
-
-    scoreElement.innerText = score.toString();
-
-    scoreElement.animate //Check if the browser supports animate API because SAFARI does not
-    && scoreElement.animate([{transform: "scale(2.0)"}, {transform: "scale(1.0)"}], {duration: 2000});
-  }
-
-  /**
-   * Start the game play by setting the interval to specified framerate
-   *
-   * @method play
-   */
-  play() {
-    this.gameInterval = setInterval(this.refreshGame.bind(this), 120);
-  }
-
-  /**
-   * Pause the game play by clearing the assigned interval
-   *
-   * @method pause
-   */
-  pause() {
-    clearInterval(this.gameInterval);
   }
 }
 

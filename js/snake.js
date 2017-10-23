@@ -56,6 +56,7 @@ class Snake {
   /**
    * Render all the blocks of the snake's body from the body property
    * If the snake did not eat then slice the tail and add new head
+   * Else increase body size
    *
    * @method renderBoard
    */
@@ -67,8 +68,8 @@ class Snake {
     const bodyLength = this.body.length;
     this.body.forEach((part, index) => {
       let block = snakePaper.rect(part.x, part.y, blockSize, blockSize);
-      block.attr("fill", "#f00");
-      block.attr("stroke", "#fff");
+      block.attr("fill", "#FF0000");
+      block.attr("stroke", "#FFFFFF");
       block.blur();
       block.attr("opacity", 1.0 - index/(bodyLength * 2))
     });
