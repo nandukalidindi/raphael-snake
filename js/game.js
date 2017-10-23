@@ -66,6 +66,10 @@ class Game {
     // http://dmitrybaranovskiy.github.io/raphael/reference.html#Element.animate
     // RaphaelJS element animation takes a callback argument which can be used
     // to mimik infinite looped animations
+    
+    // NOTE: THERE MAY BE A HEAVY PROCESSING HIT BECAUSE OF THIS DUE TO THE RECURSIVE 
+    //       CALLS TO animation FUNCTION, CAN BE REMOVED. THIS IS ADDED JUST FOR THE 
+    //       VISUAL EFFECT
     const animation = (element) => {
       element.animate({ transform: "s1.2" }, 1000,
         function() {

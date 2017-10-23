@@ -8,10 +8,13 @@ const boundaries = {
   ]
 }
 
+// Paper to render the game board
 const boardPaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
+// Paper to render Snake
 const snakePaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
+// Paper to render food block, mainly to enable animation on the 
 const foodPaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
 export {
