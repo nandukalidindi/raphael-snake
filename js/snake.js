@@ -3,6 +3,8 @@ import { head, blockSize, boundaries, snakePaper } from './shared-constants';
 const initial =  { x: boundaries.top[0] + (2*blockSize), y: boundaries.top[1] }
 
 class Snake {
+  // Skeleton and color are not used anywhere, they are initially put with an idea 
+  // to provide users the ability to change snake color and its shape
   constructor(skeleton = "rectangles", color = "black") {
     Object.assign(this, {
         skeleton, color,
