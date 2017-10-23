@@ -1,6 +1,6 @@
 import Board from './board';
 import Snake from './snake';
-import { boundaries, paper, staticPaper, boundaries, blockSize } from './shared-constants';
+import { boundaries, snakePaper, foodPaper, boundaries, blockSize } from './shared-constants';
 
 const toggles = { play: "pause", pause: "play" }
 
@@ -35,7 +35,7 @@ class Game {
    */
   withScoreComesNewFood() {
     this.updateScore(this.score += 1);
-    staticPaper.clear();
+    foodPaper.clear();
     this.foodLocation = {
       x: (parseInt(((Math.random() * boundaries.bottom[0]))/blockSize) * (blockSize)),
       y: (parseInt(((Math.random() * boundaries.bottom[1]))/blockSize) * (blockSize))
@@ -51,7 +51,7 @@ class Game {
    * @method renderFoodBlock
    */
   renderFoodBlock() {
-    var food = staticPaper.rect(this.foodLocation.x, this.foodLocation.y, blockSize, blockSize);
+    var food = foodPaper.rect(this.foodLocation.x, this.foodLocation.y, blockSize, blockSize);
     food.attr("fill", "#00ff00");
     food.attr("stroke", "#fff");
 
@@ -95,7 +95,7 @@ class Game {
    * @method refreshSnake
    */
   refreshSnake() {
-    paper.clear();
+    snakePaper.clear();
 
     this.snake.renderBody(
       this.direction,
@@ -215,6 +215,5 @@ class Game {
     clearInterval(this.gameInterval);
   }
 }
-
 
 const game = new Game();

@@ -1,4 +1,4 @@
-import { head, blockSize, boundaries, paper } from './shared-constants';
+import { head, blockSize, boundaries, snakePaper } from './shared-constants';
 
 const initial =  { x: boundaries.top[0] + (2*blockSize), y: boundaries.top[1] }
 
@@ -46,9 +46,9 @@ class Snake {
    */
   isEscaping() {
     return this.head.x >= boundaries.bottom[0]
-         || this.head.y >= boundaries.bottom[1]
-         || this.head.x < 0
-         || this.head.y < 0
+           || this.head.y >= boundaries.bottom[1]
+           || this.head.x < 0
+           || this.head.y < 0
   }
 
   /**
@@ -64,7 +64,7 @@ class Snake {
     this.body = [this.head, ...this.body];
     const bodyLength = this.body.length;
     this.body.forEach((part, index) => {
-      let block = paper.rect(part.x, part.y, blockSize, blockSize);
+      let block = snakePaper.rect(part.x, part.y, blockSize, blockSize);
       block.attr("fill", "#f00");
       block.attr("stroke", "#fff");
       block.blur();

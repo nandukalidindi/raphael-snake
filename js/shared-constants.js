@@ -14,14 +14,14 @@ var rect = boardPaper.rect(0, 0, window.innerWidth, window.innerHeight);
 rect.attr("fill", "#000000");
 rect.attr("stroke", "#00FF00");
 
-const paper = Raphael(...boundaries.top, ...boundaries.bottom);
+const snakePaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
-const staticPaper = Raphael(...boundaries.top, ...boundaries.bottom);
+const foodPaper = Raphael(...boundaries.top, ...boundaries.bottom);
 
 export {
   blockSize,
   boundaries, 
   boardPaper,
-  paper,
-  staticPaper
+  snakePaper,
+  foodPaper
 }
